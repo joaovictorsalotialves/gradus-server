@@ -1,5 +1,5 @@
-import fastify from "fastify"
-import { env } from "./env.ts"
+import fastify from 'fastify'
+import { env } from './env.ts'
 
 const app = fastify()
 
