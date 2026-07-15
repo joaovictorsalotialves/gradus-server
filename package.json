@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --experimental-strip-types --no-warnings src/server.ts",
-    "dev": "node --experimental-strip-types --no-warnings --watch src/server.ts"
+    "dev": "tsx --watch src/server.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,17 @@
   },
   "homepage": "https://github.com/joaovictorsalotialves/gradus-server#readme",
   "dependencies": {
-    "fastify": "^5.10.0"
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^1.0.0-rc.4",
+    "fastify": "^5.10.0",
+    "postgres": "^3.4.9",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1"
+    "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^1.0.0-rc.4",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
   }
 }

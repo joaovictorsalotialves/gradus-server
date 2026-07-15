@@ -1,0 +1,13 @@
+version: v5.1.4
+services:
+  gradus-pg:
+    image: bitnami/postgresql
+    env_file:
+      - db.env
+    ports:
+      - "5433:5432"
+    volumes:
+      - gradusvolume:/bitnami/postgresql
+
+volumes:
+  gradusvolume:

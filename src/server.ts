@@ -1,11 +1,12 @@
 import fastify from "fastify"
+import { env } from "./env.ts"
 
 const app = fastify()
 
 app.get('/health', () => {
-  return 'OK'
+  return 'Ok'
 })
 
-app.listen({ port: 3000, host: '0.0.0.0' }, () => {
+app.listen({ port: env.SERVER_PORT, host: '0.0.0.0' }, () => {
   console.log('🚀 Server Running!')
 })
