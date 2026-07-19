@@ -13,4 +13,14 @@ export class InMemoryUsersRepository implements TaskRepository {
 
     return task ?? null
   }
+
+  async update(task: Task): Promise<void> {
+    const taskIndex = this.items.findIndex(item => item.id.value === task.id.value)
+
+    if (taskIndex === -1) {
+      throw new Error('Task not found')
+    }
+
+    this.items[taskIndex] = task
+  }
 }

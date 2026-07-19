@@ -1,7 +1,7 @@
 # gradus-server
 
 ## RFs (Requisitos funcionais)
-- [ ] Deve ser possível visualizar uma tarefa
+- [x] Deve ser possível visualizar uma tarefa
 - [ ] Deve ser possível listar todas as tarefas
 - [ ] Deve ser possível listar todas as tarefas atrasadas
 - [ ] Deve ser possível listar todas as tarefas concluídas
@@ -10,7 +10,7 @@
 - [ ] Deve ser possível ordenar as tarefas por data de criação
 - [ ] Deve ser possível ordenar as tarefas por prazo de conclusão
 - [x] Deve ser possível cadastrar uma tarefa
-- [ ] Deve ser possível alterar uma tarefa
+- [x] Deve ser possível alterar uma tarefa
 - [ ] Deve ser possível marcar como concluída uma tarefa
 - [ ] Deve ser possível desmarcar uma tarefa como concluída
 - [ ] Deve ser possível deletar uma tarefa
@@ -21,7 +21,7 @@
 - [x] Não é permitido definir uma data limite anterior à data de criação da tarefa
 - [x] O slug deve ser gerado automaticamente a partir do título da tarefa
 - [x] O slug deve ser único
-- [ ] Uma tarefa concluída não pode ser editada
+- [x] Uma tarefa concluída não pode ser editada
 - [ ] A operação de concluir uma tarefa deve ser idempotente (executá-la mais de uma vez não altera o estado da tarefa nem gera erro)
 - [ ] A operação de desmarcar uma tarefa como concluída deve ser idempotente (executá-la mais de uma vez não altera o estado da tarefa nem gera erro)
 - [ ] Apenas tarefas pendentes podem ser marcadas como concluídas
