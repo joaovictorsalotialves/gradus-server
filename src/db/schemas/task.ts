@@ -7,7 +7,7 @@ export const tasks = pgTable('tasks', {
   title: text().notNull(),
   describe: text(),
   status: taskStatusEnum().default('pending').notNull(),
-  slug: text().unique(),
+  slug: text().unique().notNull(),
   dueDate: timestamp('due_date').notNull(),
   completedAt: timestamp('completed_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),

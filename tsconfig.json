@@ -2,15 +2,19 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "_version": "22.11.0",
   "compilerOptions": {
+    "types": ["node", "vitest/globals"],
     "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
     "module": "nodenext",
-    "target": "es2022",
+    "target": "es2024",
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16",
-    "strictNullChecks": true
-  }
+    "moduleResolution": "nodenext",
+    "strictNullChecks": true,
+    "rootDir": ".",
+    "outDir": "./dist"
+  },
+  "include": ["./src/**/*"]
 }

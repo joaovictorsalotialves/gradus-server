@@ -1,0 +1,1 @@
+ALTER TABLE "tasks" ALTER COLUMN "slug" SET NOT NULL;

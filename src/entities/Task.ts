@@ -2,11 +2,7 @@ import type { Optional } from '../utils/optional.ts'
 import { Entity } from './Entity.ts'
 import type { UniqueEntityID } from './value-objects/UniqueEntityID.ts'
 
-export enum TaskStatus {
-  PENDING = 'pending',
-  COMPLETED = 'completed',
-  OVERDUE = 'overdue',
-}
+export type TaskStatus = 'pending' | 'completed' | 'overdue'
 
 export type TaskProps = {
   title: string
@@ -62,13 +58,13 @@ export class Task extends Entity<TaskProps> {
       throw new Error('Cannot change the title of a completed task.')
     }
     this.props.title = title
-    this.props.slug = `${title.toLocaleLowerCase().replace(/\s+/g, '-')}-${Math.floor(Math.random() * 10000)}`
+    this.props.slug = `${title.toLocaleLowerCase().replace(/\s+/g, '-')}-${this.id.value.substring(0, 8)}`
     this.props.updatedAt = new Date()
   }
 
   set describe(describe: string) {
     if (this.props.completedAt) {
-      throw new Error('Cannot change the title of a completed task.')
+      throw new Error('Cannot change the description of a completed task.')
     }
     this.props.describe = describe
     this.props.updatedAt = new Date()
@@ -76,17 +72,17 @@ export class Task extends Entity<TaskProps> {
 
   set dueDate(dueDate: Date) {
     if (this.props.completedAt) {
-      throw new Error('Cannot change the title of a completed task.')
+      throw new Error('Cannot change the due date of a completed task.')
     }
     this.props.dueDate = dueDate
-    this.props.status = dueDate > new Date() ? TaskStatus.PENDING : TaskStatus.OVERDUE
+    this.props.status = dueDate > new Date() ? 'pending' : 'overdue'
     this.props.updatedAt = new Date()
   }
 
   set completedAt(completedAt: Date) {
     this.props.completedAt = completedAt
     // Toggle the status, marking tasks as completed and reverting unchecked tasks to pending.
-    this.props.status = this.props.status === TaskStatus.COMPLETED ? TaskStatus.PENDING : TaskStatus.COMPLETED
+    this.props.status = this.props.status === 'completed' ? 'pending' : 'completed'
   }
 
   set deletedAt(deletedAt: Date) {
@@ -98,16 +94,15 @@ export class Task extends Entity<TaskProps> {
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
-        slug:
-          props.slug ?? `${props.title.toLocaleLowerCase().replace(/\s+/g, '-')}-${Math.floor(Math.random() * 10000)}`,
-        status: props.completedAt
-          ? TaskStatus.COMPLETED
-          : props.dueDate > new Date()
-            ? TaskStatus.PENDING
-            : TaskStatus.OVERDUE,
+        slug: props.slug ?? '',
+        status: props.completedAt ? 'completed' : props.dueDate > new Date() ? 'pending' : 'overdue',
       },
       id
     )
+
+    if (!props.slug) {
+      task.props.slug = `${task.title.toLocaleLowerCase().replace(/\s+/g, '-')}-${task.id.value.substring(0, 8)}`
+    }
 
     return task
   }

@@ -1,7 +1,9 @@
+import { eq } from 'drizzle-orm/pg-core/expressions'
 import { db } from '../../db/client.ts'
 import { schema } from '../../db/schemas/index.ts'
 import type { Task } from '../../entities/Task.ts'
 import type { TaskRepository } from '../TaskRepository.ts'
+import { taskMapper } from './mapper/taskMapper.ts'
 
 export class TaskPostgreRepository implements TaskRepository {
   async create(task: Task) {
@@ -17,5 +19,11 @@ export class TaskPostgreRepository implements TaskRepository {
       updatedAt: task.updatedAt,
       deletedAt: task.deletedAt,
     })
+  }
+
+  async findById(id: string): Promise<Task | null> {
+    const [task] = await db.select().from(schema.tasks).where(eq(schema.tasks.id, id))
+
+    return taskMapper(task) ?? null
   }
 }
