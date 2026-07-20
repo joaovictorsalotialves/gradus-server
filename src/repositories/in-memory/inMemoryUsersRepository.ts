@@ -23,4 +23,14 @@ export class InMemoryUsersRepository implements TaskRepository {
 
     this.items[taskIndex] = task
   }
+
+  async delete(id: string): Promise<void> {
+    const taskIndex = this.items.findIndex(item => item.id.value === id)
+
+    if (taskIndex === -1) {
+      throw new Error('Task not found')
+    }
+
+    this.items.splice(taskIndex, 1)
+  }
 }

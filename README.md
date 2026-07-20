@@ -13,7 +13,7 @@
 - [x] Deve ser possível alterar uma tarefa
 - [ ] Deve ser possível marcar como concluída uma tarefa
 - [ ] Deve ser possível desmarcar uma tarefa como concluída
-- [ ] Deve ser possível deletar uma tarefa
+- [x] Deve ser possível deletar uma tarefa
 
 ## RNs (Regras de negócio)
 - [x] O título da tarefa é obrigatório
