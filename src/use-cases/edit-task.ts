@@ -1,8 +1,8 @@
 import type { Task } from '../entities/Task.ts'
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
-import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
-import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
 import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
+import { dueDateTaskValidator } from '../utils/validators/dueDateTaskValidator.ts'
+import { titleTaskValidator } from '../utils/validators/titleTaskValidator.ts'
 
 type EditTaskRequest = {
   id: string
@@ -23,17 +23,8 @@ export class EditTaskUseCase {
       throw new TaskNotFoundError()
     }
 
-    if (!title || title.trim() === '') {
-      throw new RequiredFieldError('Title')
-    }
-
-    if (!dueDate) {
-      throw new RequiredFieldError('Due date')
-    }
-
-    if (dueDate < new Date()) {
-      throw new InvalidValueError('Due date', 'cannot be in the past')
-    }
+    titleTaskValidator(title ?? task.title)
+    dueDateTaskValidator(dueDate ?? task.dueDate)
 
     task.title = title ?? task.title
     task.describe = (describe as string) ?? task.describe
