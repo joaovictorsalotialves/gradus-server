@@ -1,5 +1,6 @@
 import type { Task } from '../entities/Task.ts'
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
+import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 
 type DetailTaskRequest = {
   id: string
@@ -14,7 +15,7 @@ export class DetailTaskUseCase {
     const task = await this.taskRepository.findById(id)
 
     if (!task) {
-      throw new Error('Task not found')
+      throw new TaskNotFoundError()
     }
 
     return task

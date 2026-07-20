@@ -1,4 +1,7 @@
 import type { Task } from '../../entities/Task.ts'
+import { CannotUpdateCompletedTaskError } from '../../utils/errors/CannotUpdateCompletedTaskError.ts'
+import { CannotUpdateDeletedTaskError } from '../../utils/errors/CannotUpdateDeletedTaskError.ts'
+import { TaskNotFoundError } from '../../utils/errors/TaskNotFoundError.ts'
 import type { TaskRepository } from '../TaskRepository.ts'
 
 export class InMemoryUsersRepository implements TaskRepository {
@@ -16,31 +19,31 @@ export class InMemoryUsersRepository implements TaskRepository {
 
   async update(task: Task): Promise<void> {
     if (task.deletedAt) {
-      throw new Error('Cannot update a deleted task')
+      throw new CannotUpdateDeletedTaskError()
     }
 
     if (task.completedAt) {
-      throw new Error('Cannot update a completed task')
+      throw new CannotUpdateCompletedTaskError()
     }
 
     const taskIndex = this.items.findIndex(item => item.id.value === task.id.value)
 
     if (taskIndex === -1) {
-      throw new Error('Task not found')
+      throw new TaskNotFoundError()
     }
 
     this.items[taskIndex] = task
   }
 
   async delete(task: Task): Promise<void> {
+    if (task.deletedAt) {
+      return
+    }
+
     const taskIndex = this.items.findIndex(item => item.id.value === task.id.value)
 
     if (taskIndex === -1) {
-      throw new Error('Task not found')
-    }
-
-    if (task.deletedAt) {
-      return
+      throw new TaskNotFoundError()
     }
 
     this.items[taskIndex].deletedAt = new Date()

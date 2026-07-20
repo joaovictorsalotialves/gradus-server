@@ -1,5 +1,8 @@
 import { Task } from '../entities/Task.ts'
 import { InMemoryUsersRepository } from '../repositories/in-memory/inMemoryUsersRepository.ts'
+import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
+import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
+import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 import { EditTaskUseCase } from './edit-task.ts'
 
 let sut: EditTaskUseCase
@@ -46,7 +49,7 @@ describe('Edit Task Use Case', () => {
         describe: 'Description',
         dueDate: new Date(Date.now() + 1000 * 60 * 60 * 24),
       })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(TaskNotFoundError)
   })
 
   it('should throw an error if the title is empty', async () => {
@@ -60,7 +63,7 @@ describe('Edit Task Use Case', () => {
         describe: 'Description',
         dueDate: new Date(Date.now() + 1000 * 60 * 60 * 24),
       })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(RequiredFieldError)
   })
 
   it('should throw an error if the due date is empty', async () => {
@@ -74,7 +77,7 @@ describe('Edit Task Use Case', () => {
         describe: 'Description',
         dueDate: '' as unknown as Date, // Forcefully casting to Date to simulate an empty due date
       })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(RequiredFieldError)
   })
 
   it('should throw an error if the due date is in the past', async () => {
@@ -88,6 +91,6 @@ describe('Edit Task Use Case', () => {
         describe: 'Description',
         dueDate: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day in the past
       })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(InvalidValueError)
   })
 })

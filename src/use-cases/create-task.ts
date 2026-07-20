@@ -1,5 +1,7 @@
 import { Task } from '../entities/Task.ts'
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
+import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
+import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
 
 type CreateTaskRequest = {
   title: string
@@ -14,15 +16,15 @@ export class CreateTaskUseCase {
     const { title, describe, dueDate } = request
 
     if (!title || title.trim() === '') {
-      throw new Error('Title is required')
+      throw new RequiredFieldError('Title')
     }
 
     if (!dueDate) {
-      throw new Error('Due date is required')
+      throw new RequiredFieldError('Due date')
     }
 
     if (dueDate < new Date()) {
-      throw new Error('Due date cannot be in the past')
+      throw new InvalidValueError('Due date', 'date prior to the current day')
     }
 
     const task = Task.create({ title, describe, dueDate })

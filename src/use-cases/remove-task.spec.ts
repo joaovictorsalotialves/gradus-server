@@ -1,5 +1,6 @@
 import { Task } from '../entities/Task.ts'
 import { InMemoryUsersRepository } from '../repositories/in-memory/inMemoryUsersRepository.ts'
+import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 import { RemoveTaskUseCase } from './remove-task.ts'
 
 let sut: RemoveTaskUseCase
@@ -33,6 +34,6 @@ describe('Remove Task Use Case', () => {
   })
 
   it('should throw an error if the task is not found', async () => {
-    await expect(sut.execute({ id: 'non-existent-id' })).rejects.toBeInstanceOf(Error)
+    await expect(sut.execute({ id: 'non-existent-id' })).rejects.toBeInstanceOf(TaskNotFoundError)
   })
 })

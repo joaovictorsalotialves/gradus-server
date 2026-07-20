@@ -1,5 +1,8 @@
 import type { Task } from '../entities/Task.ts'
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
+import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
+import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
+import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 
 type EditTaskRequest = {
   id: string
@@ -17,19 +20,19 @@ export class EditTaskUseCase {
     const task = await this.taskRepository.findById(id)
 
     if (!task) {
-      throw new Error('Task not found')
+      throw new TaskNotFoundError()
     }
 
     if (!title || title.trim() === '') {
-      throw new Error('Title is required')
+      throw new RequiredFieldError('Title')
     }
 
     if (!dueDate) {
-      throw new Error('Due date is required')
+      throw new RequiredFieldError('Due date')
     }
 
     if (dueDate < new Date()) {
-      throw new Error('Due date cannot be in the past')
+      throw new InvalidValueError('Due date', 'cannot be in the past')
     }
 
     task.title = title ?? task.title

@@ -1,4 +1,6 @@
 import { InMemoryUsersRepository } from '../repositories/in-memory/inMemoryUsersRepository.ts'
+import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
+import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
 import { CreateTaskUseCase } from './create-task.ts'
 
 let sut: CreateTaskUseCase
@@ -50,7 +52,7 @@ describe('Create Task Use Case', () => {
       title: '',
     }
 
-    await expect(sut.execute(request)).rejects.toBeInstanceOf(Error)
+    await expect(sut.execute(request)).rejects.toBeInstanceOf(RequiredFieldError)
   })
 
   it('should throw an error if the due date is empty', async () => {
@@ -59,7 +61,7 @@ describe('Create Task Use Case', () => {
       dueDate: null as unknown as Date, // Forcefully casting to Date to simulate an empty due date
     }
 
-    await expect(sut.execute(request)).rejects.toBeInstanceOf(Error)
+    await expect(sut.execute(request)).rejects.toBeInstanceOf(RequiredFieldError)
   })
 
   it('should throw an error if the due date is in the past', async () => {
@@ -68,6 +70,6 @@ describe('Create Task Use Case', () => {
       dueDate: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day in the past
     }
 
-    await expect(sut.execute(request)).rejects.toBeInstanceOf(Error)
+    await expect(sut.execute(request)).rejects.toBeInstanceOf(InvalidValueError)
   })
 })

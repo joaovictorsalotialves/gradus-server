@@ -1,4 +1,5 @@
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
+import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 
 type RemoveTaskRequest = {
   id: string
@@ -13,7 +14,7 @@ export class RemoveTaskUseCase {
     const task = await this.taskRepository.findById(id)
 
     if (!task) {
-      throw new Error('Task not found')
+      throw new TaskNotFoundError()
     }
 
     await this.taskRepository.delete(task)
