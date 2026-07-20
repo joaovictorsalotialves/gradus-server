@@ -26,8 +26,9 @@
 - [ ] A operação de desmarcar uma tarefa como concluída deve ser idempotente (executá-la mais de uma vez não altera o estado da tarefa nem gera erro)
 - [ ] Apenas tarefas pendentes podem ser marcadas como concluídas
 - [ ] Uma tarefa atrasada é aquela cuja data limite é anterior à data atual e ainda não foi concluída
-- [ ] A exclusão de tarefas deve utilizar Soft Delete
-- [ ] Não é permitido restaurar uma tarefa excluída
+- [x] A exclusão de tarefas deve utilizar Soft Delete
+- [x] Não é permitido restaurar uma tarefa excluída
+- [x] Excluir uma tarefa já excluida deve ser idempotente (executá-la mais de uma vez não altera o estado da tarefa nem gera erro)
 
 ## RNFs (Requisitos não funcionais)
 - [ ] Os dados da aplicação devem estar persistidos em um banco de dados PostgreSQL

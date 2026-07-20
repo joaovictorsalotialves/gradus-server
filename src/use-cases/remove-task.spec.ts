@@ -25,6 +25,13 @@ describe('Remove Task Use Case', () => {
     await expect(sut.execute({ id: inMemoryTaskRepository.items[0].id.value })).resolves.not.toThrow()
   })
 
+  it('should not throw an error when the task has already been removed', async () => {
+    inMemoryTaskRepository.create(makeTask())
+    await sut.execute({ id: inMemoryTaskRepository.items[0].id.value })
+
+    await expect(sut.execute({ id: inMemoryTaskRepository.items[0].id.value })).resolves.not.toThrow()
+  })
+
   it('should throw an error if the task is not found', async () => {
     await expect(sut.execute({ id: 'non-existent-id' })).rejects.toBeInstanceOf(Error)
   })

@@ -16,6 +16,6 @@ export class RemoveTaskUseCase {
       throw new Error('Task not found')
     }
 
-    await this.taskRepository.delete(id)
+    await this.taskRepository.delete(task)
   }
 }
