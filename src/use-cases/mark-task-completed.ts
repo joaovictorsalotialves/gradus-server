@@ -22,7 +22,8 @@ export class MarkTaskCompletedUseCase {
       return task
     }
 
-    await this.taskRepository.markAsCompleted(id)
+    task.completedAt = new Date()
+    await this.taskRepository.update(task)
 
     return task
   }

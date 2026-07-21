@@ -1,5 +1,6 @@
 import type { Task } from '../entities/Task.ts'
 import type { TaskRepository } from '../repositories/TaskRepository.ts'
+import { CannotUpdateCompletedTaskError } from '../utils/errors/CannotUpdateCompletedTaskError.ts'
 import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
 import { dueDateTaskValidator } from '../utils/validators/dueDateTaskValidator.ts'
 import { titleTaskValidator } from '../utils/validators/titleTaskValidator.ts'
@@ -21,6 +22,10 @@ export class EditTaskUseCase {
 
     if (!task) {
       throw new TaskNotFoundError()
+    }
+
+    if (task.completedAt) {
+      throw new CannotUpdateCompletedTaskError()
     }
 
     titleTaskValidator(title ?? task.title)

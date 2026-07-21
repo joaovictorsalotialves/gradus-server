@@ -18,7 +18,8 @@ export class MarkTaskNotCompletedUseCase {
       throw new TaskNotFoundError()
     }
 
-    await this.taskRepository.markAsNotCompleted(id)
+    task.completedAt = undefined
+    await this.taskRepository.update(task)
 
     return task
   }

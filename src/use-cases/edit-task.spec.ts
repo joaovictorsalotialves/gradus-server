@@ -1,5 +1,6 @@
 import { Task } from '../entities/Task.ts'
 import { InMemoryUsersRepository } from '../repositories/in-memory/inMemoryUsersRepository.ts'
+import { CannotUpdateCompletedTaskError } from '../utils/errors/CannotUpdateCompletedTaskError.ts'
 import { InvalidValueError } from '../utils/errors/InvalidValueError.ts'
 import { RequiredFieldError } from '../utils/errors/RequiredFieldError.ts'
 import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
@@ -50,6 +51,21 @@ describe('Edit Task Use Case', () => {
         dueDate: new Date(Date.now() + 1000 * 60 * 60 * 24),
       })
     ).rejects.toBeInstanceOf(TaskNotFoundError)
+  })
+
+  it('should throw an error if the task is completed', async () => {
+    const task = makeTask()
+    task.completedAt = new Date()
+    await inMemoryTaskRepository.create(task)
+
+    await expect(() =>
+      sut.execute({
+        id: task.id.value,
+        title: 'Updated Task',
+        describe: 'Updated description',
+        dueDate: new Date(Date.now() + 1000 * 60 * 60 * 48),
+      })
+    ).rejects.toBeInstanceOf(CannotUpdateCompletedTaskError)
   })
 
   it('should throw an error if the title is empty', async () => {
