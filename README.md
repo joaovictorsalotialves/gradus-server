@@ -11,8 +11,8 @@
 - [ ] Deve ser possível ordenar as tarefas por prazo de conclusão
 - [x] Deve ser possível cadastrar uma tarefa
 - [x] Deve ser possível alterar uma tarefa
-- [ ] Deve ser possível marcar como concluída uma tarefa
-- [ ] Deve ser possível desmarcar uma tarefa como concluída
+- [x] Deve ser possível marcar como concluída uma tarefa
+- [x] Deve ser possível desmarcar uma tarefa como concluída
 - [x] Deve ser possível deletar uma tarefa
 
 ## RNs (Regras de negócio)

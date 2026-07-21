@@ -79,7 +79,7 @@ export class Task extends Entity<TaskProps> {
     this.props.updatedAt = new Date()
   }
 
-  set completedAt(completedAt: Date) {
+  set completedAt(completedAt: Date | undefined) {
     this.props.completedAt = completedAt
     // Toggle the status, marking tasks as completed and reverting unchecked tasks to pending.
     this.props.status = this.props.status === 'completed' ? 'pending' : 'completed'
