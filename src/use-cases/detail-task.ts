@@ -14,7 +14,7 @@ export class DetailTaskUseCase {
 
     const task = await this.taskRepository.findById(id)
 
-    if (!task) {
+    if (!task || task.deletedAt) {
       throw new TaskNotFoundError()
     }
 

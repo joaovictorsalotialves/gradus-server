@@ -35,6 +35,15 @@ describe('Detail Task Use Case', () => {
     })
   })
 
+  it('should throw an error if the task has been removed', async () => {
+    inMemoryTaskRepository.create(makeTask())
+    inMemoryTaskRepository.items[0].deletedAt = new Date()
+
+    await expect(sut.execute({ id: inMemoryTaskRepository.items[0].id.value })).rejects.toBeInstanceOf(
+      TaskNotFoundError
+    )
+  })
+
   it('should throw an error if the task is not found', async () => {
     await expect(sut.execute({ id: 'non-existent-id' })).rejects.toBeInstanceOf(TaskNotFoundError)
   })
