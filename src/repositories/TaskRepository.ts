@@ -4,5 +4,6 @@ export interface TaskRepository {
   create(task: Task): Promise<void>
   findById(id: string): Promise<Task | null>
   update(task: Task): Promise<void>
+  markAsCompleted(id: string): Promise<void>
   delete(task: Task): Promise<void>
 }

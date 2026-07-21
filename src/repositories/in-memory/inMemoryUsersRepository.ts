@@ -48,4 +48,24 @@ export class InMemoryUsersRepository implements TaskRepository {
 
     this.items[taskIndex].deletedAt = new Date()
   }
+
+  async markAsCompleted(id: string): Promise<void> {
+    const taskIndex = this.items.findIndex(item => item.id.value === id)
+
+    if (taskIndex === -1) {
+      throw new TaskNotFoundError()
+    }
+
+    const task = this.items[taskIndex]
+
+    if (task.deletedAt) {
+      throw new CannotUpdateDeletedTaskError()
+    }
+
+    if (task.completedAt) {
+      return
+    }
+
+    this.items[taskIndex].completedAt = new Date()
+  }
 }

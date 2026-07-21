@@ -1,9 +1,9 @@
 import { Task } from '../entities/Task.ts'
 import { InMemoryUsersRepository } from '../repositories/in-memory/inMemoryUsersRepository.ts'
 import { TaskNotFoundError } from '../utils/errors/TaskNotFoundError.ts'
-import { RemoveTaskUseCase } from './remove-task.ts'
+import { MarkTaskCompletedUseCase } from './mark-task-completed.ts'
 
-let sut: RemoveTaskUseCase
+let sut: MarkTaskCompletedUseCase
 let inMemoryTaskRepository: InMemoryUsersRepository
 
 const makeTask = () => {
@@ -14,20 +14,20 @@ const makeTask = () => {
   })
 }
 
-describe('Remove Task Use Case', () => {
+describe('Mark Task Completed Use Case', () => {
   beforeEach(() => {
     inMemoryTaskRepository = new InMemoryUsersRepository()
-    sut = new RemoveTaskUseCase(inMemoryTaskRepository)
+    sut = new MarkTaskCompletedUseCase(inMemoryTaskRepository)
   })
 
-  it('should remove the task when given a valid ID', async () => {
+  it('should mark the task as completed when given a valid ID', async () => {
     inMemoryTaskRepository.create(makeTask())
 
     await expect(sut.execute({ id: inMemoryTaskRepository.items[0].id.value })).resolves.not.toThrow()
-    expect(inMemoryTaskRepository.items[0].deletedAt).toBeTruthy()
+    expect(inMemoryTaskRepository.items[0].completedAt).toBeTruthy()
   })
 
-  it('should not throw an error when the task has already been removed', async () => {
+  it('should not throw an error when the task has already been completed', async () => {
     inMemoryTaskRepository.create(makeTask())
     await sut.execute({ id: inMemoryTaskRepository.items[0].id.value })
 
