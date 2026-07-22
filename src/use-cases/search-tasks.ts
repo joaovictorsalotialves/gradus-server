@@ -12,6 +12,7 @@ type SearchTasksRequest = {
 
 export class SearchTasksUseCase {
   constructor(private readonly taskRepository: TaskRepository) {}
+
   async execute(request: SearchTasksRequest): Promise<Task[]> {
     const tasks = await this.taskRepository.search({
       title: request.title,

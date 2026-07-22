@@ -33,7 +33,7 @@
 - [x] As listagens devem ser paginadas, retornando no máximo 10 registros por página
 - [ ] A aplicação deve estar dockerizada
 - [ ] A API deve seguir o padrão REST
-- [ ] A aplicação deve possuir testes unitários
+- [x] A aplicação deve possuir testes unitários
 - [ ] A aplicação deve possuir testes e2e
 
 ## Entidade
