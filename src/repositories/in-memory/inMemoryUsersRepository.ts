@@ -1,7 +1,7 @@
 import type { Task } from '../../entities/Task.ts'
 import { CannotUpdateDeletedTaskError } from '../../utils/errors/CannotUpdateDeletedTaskError.ts'
 import { TaskNotFoundError } from '../../utils/errors/TaskNotFoundError.ts'
-import type { TaskRepository } from '../TaskRepository.ts'
+import type { SearchTasksQuery, TaskRepository } from '../TaskRepository.ts'
 
 export class InMemoryUsersRepository implements TaskRepository {
   public items: Task[] = []
@@ -14,6 +14,37 @@ export class InMemoryUsersRepository implements TaskRepository {
     const [task] = this.items.filter(item => item.id.value === id)
 
     return task ?? null
+  }
+
+  async search({
+    title,
+    status,
+    sort = 'createdAt',
+    order = 'asc',
+    page = 1,
+    limit = 10,
+  }: SearchTasksQuery): Promise<Task[]> {
+    let filteredTasks = this.items
+    if (title) {
+      filteredTasks = filteredTasks.filter(item => item.title.includes(title))
+    }
+    if (status) {
+      filteredTasks = filteredTasks.filter(item => status.includes(item.status))
+    }
+
+    const comparators = {
+      createdAt: (a: Task, b: Task) => a.createdAt.getTime() - b.createdAt.getTime(),
+      dueDate: (a: Task, b: Task) => a.dueDate.getTime() - b.dueDate.getTime(),
+    }
+
+    filteredTasks.sort((a, b) => {
+      const comparison = comparators[sort](a, b)
+      return order === 'asc' ? comparison : -comparison
+    })
+
+    const start = (page - 1) * limit
+
+    return filteredTasks.slice(start, start + limit)
   }
 
   async update(task: Task): Promise<void> {
