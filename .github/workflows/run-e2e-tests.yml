@@ -1,0 +1,40 @@
+name: Run E2E Tests
+
+on: [push]
+
+jobs:
+  run-e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    services:
+      gradus-pg-test:
+        image: postgres:15.3-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: gradus
+          POSTGRESQL_PASSWORD: gradus
+          POSTGRESQL_DATABASE: gradus
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run db:migrate
+        env:
+          DATABASE_URL: postgresql://gradus:gradus@localhost:5432/gradus
+          SERVER_HOST: "0.0.0.0"
+          SERVER_PORT: 3000
+
+      - run: npm run test:e2e
+        env:
+          DATABASE_URL: postgresql://gradus:gradus@localhost:5432/gradus
+          SERVER_HOST: "0.0.0.0"
+          SERVER_PORT: 3000
