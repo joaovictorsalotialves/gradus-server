@@ -9,8 +9,8 @@ const createTaskBodySchema = z.object({
   dueDate: z.coerce.date(),
 })
 
-const taskPostgreRepository = new TaskPostgresRepository()
-const createTaskUseCase = new CreateTaskUseCase(taskPostgreRepository)
+const taskPostgresRepository = new TaskPostgresRepository()
+const createTaskUseCase = new CreateTaskUseCase(taskPostgresRepository)
 
 export class CreateTaskController {
   async execute(req: Request, res: Response) {
