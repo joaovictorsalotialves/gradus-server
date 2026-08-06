@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "tsx --watch src/server.ts",
     "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "test:e2e": "vitest run --dir src/controllers",
     "test:unit": "vitest run --dir src/use-cases",
     "test:watch": "vitest"
@@ -26,6 +28,7 @@
     "@biomejs/biome": "^2.5.6",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.2",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.23.5",
     "typescript": "^7.0.2",
     "vite": "^8.2.0",
@@ -34,7 +37,9 @@
   },
   "dependencies": {
     "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "pg": "^8.22.0",
     "zod": "^4.4.3"
   }
 }

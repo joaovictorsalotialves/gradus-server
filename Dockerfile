@@ -10,4 +10,8 @@ COPY . .
 
 EXPOSE 3000
 
+RUN npm run db:generate
+
+RUN npm run db:migrate
+
 CMD ["npm", "run", "dev"]
