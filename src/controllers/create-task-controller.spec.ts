@@ -1,7 +1,13 @@
 import request from 'supertest'
 import { app } from '../app.js'
+import { db } from '../db/client.js'
+import { schema } from '../db/schemas/index.js'
 
 describe('Create Task Controller (e2e)', () => {
+  beforeAll(async () => {
+    await db.delete(schema.tasks).execute()
+  })
+
   it('should be able to create a task (e2e)', async () => {
     const today = new Date(Date.now() + 1000 * 60 * 60 * 24)
 

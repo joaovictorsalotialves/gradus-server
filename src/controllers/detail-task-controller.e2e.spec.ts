@@ -5,6 +5,10 @@ import { db } from '../db/client'
 import { schema } from '../db/schemas/index'
 
 describe('Detail Task Controller (e2e)', () => {
+  beforeAll(async () => {
+    await db.delete(schema.tasks).execute()
+  })
+
   it('should be able to detail a task (e2e)', async () => {
     await db.insert(schema.tasks).values({
       id: '202191a0-1da9-4715-900e-dfe21de090e1',
